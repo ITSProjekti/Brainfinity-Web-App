@@ -1,0 +1,17 @@
+﻿@model IEnumerable<BrainfinityWebApp.Models.TakmicenjeViewModel>
+<h2>Index</h2>
+<table class="table table-hover table-striped">
+    <tr>
+        <th>Naziv</th>
+        <th>Datum od</th>
+        <th>Datum do</th>
+    </tr>
+    @foreach (TakmicenjeViewModel takmicenje in Model)
+    {
+        <tr>
+            <td>@takmicenje.Naziv</td>
+            <td>@takmicenje.datumOd.ToString("dd MMMM yyyy")</td>
+            <td>@takmicenje.DatumDo.ToString("dd MMMM yyyy")</td>
+        </tr>
+    }
+</table>

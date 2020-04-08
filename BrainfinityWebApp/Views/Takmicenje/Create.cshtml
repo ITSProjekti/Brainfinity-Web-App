@@ -1,0 +1,26 @@
+﻿@model BrainfinityWebApp.Models.TakmicenjeViewModel
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label>Naziv</label>
+        @Html.TextBoxFor(model => model.Naziv, "", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(model => model.datumOd)
+        @Html.TextBoxFor(model => model.datumOd, "", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.DisplayNameFor(model => model.DatumDo)
+        @Html.TextBoxFor(model => model.DatumDo, "", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Kreiraj" , class="btn btn-success btn-block" />
+    </div>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+}
