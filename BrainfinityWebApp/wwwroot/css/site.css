@@ -1,8 +1,66 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\
 for details on configuring this project to bundle and minify static web assets. */
+
+@font-face {
+    font-family: 'darker_grotesqueblack';
+    src: url('../fonts/DarkerGrotesque-Black.woff') format('woff');
+    src: url(../fonts/DarkerGrotesque-Black.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'darker_grotesquebold';
+    src: url('../fonts/DarkerGrotesque-Bold.woff') format('woff');
+    src: url('../fonts/DarkerGrotesque-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'darker_grotesqueextrabold';
+    src: url('../fonts/DarkerGrotesque-Extrabold.woff') format('woff');
+    src: url('../fonts/DarkerGrotesque-Extrabold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'darker_grotesquelight';
+    src: url('../fonts/DarkerGrotesque-Light.woff') format('woff');
+    src: url('../fonts/DarkerGrotesque-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'darker_grotesquemedium';
+    src: url('../fonts/DarkerGrotesque-Medium.woff') format('woff');
+    src: url('../fonts/DarkerGrotesque-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'darker_grotesqueregular';
+    src: url('../fonts/DarkerGrotesque-Regular.woff') format('woff');
+    src: url('../fonts/DarkerGrotesque-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'darker_grotesquesemibold';
+    src: url('../fonts/DarkerGrotesque-Semibold.woff') format('woff');
+    src: url('../fonts/DarkerGrotesque-Semibold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
     padding-bottom: 20px;
+    background-color: lightgrey;
 }
 
 /* Wrapping element */
@@ -12,43 +70,142 @@ body {
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-    margin: 15px;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
-}
-
 .wrapper {
-    display: flex;
+    height: 100vh;
     width: 100%;
+    overflow: hidden;
 }
 
-#sidebar {
-    width: 250px;
+#content {
+    margin-left: 345px;
+    /*position: absolute;*/
+    /*overflow-x: hidden;*/
+    height: 100vh;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 345px;
+    background-color: white;
     position: fixed;
+    overflow-x: hidden;
+    z-index: 1;
     top: 0;
     left: 0;
-    height: 100vh;
-    z-index: 999;
-    background: #7386D5;
-    color: #fff;
-    transition: all 0.3s;
+}
+
+    .sidebar img {
+        width: 24px;
+        height: auto;
+    }
+
+    .sidebar #logo {
+        width: 80%;
+        height: auto;
+        padding-top: 15px;
+    }
+
+    .sidebar .profil-slika img {
+        width: 100%;
+        height: auto;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        margin-top: 20px;
+        padding-left: 0;
+    }
+
+        .sidebar ul li {
+            padding-left: 15px;
+        }
+
+            .sidebar ul li a {
+                text-decoration: none;
+                color: black;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                display: inline-block;
+                width: 100%;
+            }
+
+            .sidebar ul li span {
+                font-family: darker_grotesqueblack;
+                font-size: 18px;
+                padding-left: 15px;
+                vertical-align: middle;
+            }
+
+.profil-ime h3 {
+    font-family: darker_grotesqueblack;
+    font-size: 18px;
+}
+
+.profil-ime h5 {
+    font-family: darker_grotesquesemibold;
+    font-size: 14px;
+}
+
+.active {
+    background-color: red;
+}
+
+    .active a#takmicenje {
+    }
+
+    .active a span {
+        color: white;
+    }
+
+#sidebarExpanded span {
+    display: inline-block;
+    padding-top: 20px;
+}
+
+.profil-slika {
+    margin-top: 50px;
+}
+
+    .profil-slika img {
+        border: 4px solid darkgray;
+        border-radius: 7px;
+    }
+
+.profil-ime {
+    margin-bottom: 20px;
+}
+
+.wrapper.expanded .sidebar {
+    width: 55px;
+}
+
+    .wrapper.expanded .sidebar #logo {
+        display: none;
+    }
+
+    .wrapper.expanded .sidebar .profil-slika {
+        display: none;
+    }
+
+    .wrapper.expanded .sidebar .profil-ime {
+        display: none;
+    }
+
+    .wrapper.expanded .sidebar ul li a {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .wrapper.expanded .sidebar ul li span {
+        display: none;
+    }
+
+.wrapper.expanded #content {
+    margin-left: 55px;
+}
+
+@media only screen and (max-width: 450px) {
+    .sidebar {
+        width: 100%;
+    }
 }
