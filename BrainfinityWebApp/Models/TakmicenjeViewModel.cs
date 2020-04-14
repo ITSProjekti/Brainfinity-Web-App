@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace BrainfinityWebApp.Models
 {
+    public enum Status
+    {
+        Arhivirano,
+        Aktivno,
+        Nastupajuce
+    }
+
     public class TakmicenjeViewModel
     {
         public int Id { get; set; }
@@ -15,5 +22,7 @@ namespace BrainfinityWebApp.Models
         public DateTime datumOd { get; set; }
 
         public DateTime DatumDo { get; set; }
+        public string Slika { get; set; }
+        public Status Status { get; set; }
     }
 }

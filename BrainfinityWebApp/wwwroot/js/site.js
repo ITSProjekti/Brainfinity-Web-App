@@ -2,31 +2,52 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-$("#sidebarExpanded").click(function (e) {
-    e.preventDefault();
 
+$("#sidebarExpanded").on("click", function (e) {
+    e.preventDefault();
     $(".wrapper").toggleClass("expanded");
+    if ($(".wrapper").hasClass("expanded")) {
+        sessionStorage.setItem("expanded", "expanded");
+    } else {
+        sessionStorage.setItem("expanded", "");
+    }
 });
 
+if (sessionStorage.getItem("expanded")) {
+    if (sessionStorage.getItem("expanded") == "expanded") {
+        $(".wrapper").addClass("expanded");
+    } else {
+        $(".wrapper").removeClass("expanded");
+    }
+}
 $(document).ready(function () {
     defaultScreen();
+
+    $(".wrapper").show();
 
     $(window).resize(function () {
         defaultScreen();
     }).resize();
 
     $("#meni").on("click", ".item", function (e) {
-        var itemActive = $(this);
-        var a = itemActive.children("a");
+        var itemId = $(this).attr("id");
 
-        $(".item").removeClass("active");
-        $(itemActive).addClass("active");
+        sessionStorage.setItem("active", itemId);
+    });
 
-        a.children("img").attr("src", "../images/" + a.attr("id") + "-light.png");
+    var index = sessionStorage.getItem("active");
 
-        $("#meni > *").not(".item.active").children("a").each(function (i) {
-            $(this).children("img").attr("src", "../images/" + $(this).attr("id") + "-dark.png");
-        });
+    $("#meni").children(".item").each(function () {
+        var item = $(this);
+        var itemId = item.attr("id");
+
+        var itemIcon = item.children("a").children("img");
+        if (index) {
+            if (itemId == index) {
+                item.addClass("active");
+                itemIcon.attr("src", "../images/" + itemId + "-light.png");
+            }
+        }
     });
 });
 

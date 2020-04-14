@@ -1,17 +1,118 @@
 ﻿@model IEnumerable<BrainfinityWebApp.Models.TakmicenjeViewModel>
-<h2>Index</h2>
-<table class="table table-hover table-striped">
-    <tr>
-        <th>Naziv</th>
-        <th>Datum od</th>
-        <th>Datum do</th>
-    </tr>
-    @foreach (TakmicenjeViewModel takmicenje in Model)
-    {
-        <tr>
-            <td>@takmicenje.Naziv</td>
-            <td>@takmicenje.datumOd.ToString("dd MMMM yyyy")</td>
-            <td>@takmicenje.DatumDo.ToString("dd MMMM yyyy")</td>
-        </tr>
-    }
-</table>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Takmičenje</h2>
+    </div>
+    <div class="col-md-2">
+        <br />
+        <a href="@Url.Action("Create")" class="btn btn-primary btn-block"><span id="kreiraj-novo-takmicenje"><img src="~/images/user-plus.png" />&nbsp; &nbsp;Kreiraj takmičenje</span></a>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default panel-status"
+             data-toggle="collapse"
+             data-target="#collapseNastupajuce">
+            <div class="panel-heading panel-heading-status">
+                <h4 class="panel-title">
+                    Nastupajuća takmičenja
+                </h4>
+                (@Model.Where(t => t.Status == Status.Nastupajuce).Count())
+            </div>
+            <div id="collapseNastupajuce" class="panel-collapse collapse">
+                <div class="panel-body panel-body-status">
+                    <div class="row">
+                        @foreach (TakmicenjeViewModel takmicenje in Model.Where(t => t.Status == Status.Nastupajuce))
+                        {
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <img src="@takmicenje.Slika" class="takmicenje-slika" />
+                                    </div>
+                                    <div class="panel-footer">
+                                        <span class="naziv-takmicenja">@takmicenje.Naziv</span>
+                                        <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default panel-status"
+             data-toggle="collapse"
+             data-target="#collapseAktivno">
+            <div class="panel-heading panel-heading-status">
+                <h4 class="panel-title">
+                    Aktivno takmičenje
+                </h4>
+                (@Model.Where(t => t.Status == Status.Aktivno).Count())
+            </div>
+            <div id="collapseAktivno" class="panel-collapse collapse">
+                <div class="panel-body panel-body-status">
+                    <div class="row">
+                        @foreach (TakmicenjeViewModel takmicenje in Model.Where(t => t.Status == Status.Aktivno))
+                        {
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <img src="@takmicenje.Slika" class="takmicenje-slika" />
+                                    </div>
+                                    <div class="panel-footer">
+                                        <span class="naziv-takmicenja">@takmicenje.Naziv</span>
+                                        <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default panel-status"
+             data-toggle="collapse"
+             data-target="#collapseArhivirano">
+            <div class="panel-heading panel-heading-status">
+                <h4 class="panel-title">
+                    Arhiva takmičenja
+                </h4>
+                (@Model.Where(t => t.Status == Status.Arhivirano).Count())
+            </div>
+            <div id="collapseArhivirano" class="panel-collapse collapse">
+                <div class="panel-body panel-body-status">
+                    <div class="row">
+                        @foreach (TakmicenjeViewModel takmicenje in Model.Where(t => t.Status == Status.Arhivirano))
+                        {
+                            <div class="col-md-4">
+                                <div class="panel panel-default panel-arhivirano">
+                                    <div class="panel-body">
+                                        <img src="@takmicenje.Slika" class="takmicenje-slika arhivirano-slika" />
+                                        <div class="arhivirano-takmicenje"></div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <span class="naziv-takmicenja">@takmicenje.Naziv</span>
+                                        <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

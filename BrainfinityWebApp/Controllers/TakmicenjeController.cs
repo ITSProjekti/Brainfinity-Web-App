@@ -10,30 +10,30 @@ namespace BrainfinityWebApp.Controllers
 {
     public class TakmicenjeController : Controller
     {
-        public IActionResult Index()
+        private readonly IHttpClientFactory _clientFactory;
+
+        public TakmicenjeController(IHttpClientFactory client)
+        {
+            _clientFactory = client;
+        }
+
+        public async Task<IActionResult> Index()
         {
             IEnumerable<TakmicenjeViewModel> takmicenja = null;
-            using (var client = new HttpClient())
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "takmicenje");
+            var client = _clientFactory.CreateClient("takmicenje");
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
             {
-                client.BaseAddress = new Uri("https://localhost:5001/api/");
-
-                var response = client.GetAsync("takmicenje");
-                response.Wait();
-
-                var result = response.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var read = result.Content.ReadAsAsync<IList<TakmicenjeViewModel>>();
-                    read.Wait();
-
-                    takmicenja = read.Result;
-                }
-                else
-                {
-                    takmicenja = Enumerable.Empty<TakmicenjeViewModel>();
-
-                    ModelState.AddModelError(string.Empty, "Greska");
-                }
+                var result = await response.Content.ReadAsAsync<IList<TakmicenjeViewModel>>();
+                takmicenja = result;
+            }
+            else
+            {
+                takmicenja = Enumerable.Empty<TakmicenjeViewModel>();
+                ModelState.AddModelError(string.Empty, "Greska");
             }
 
             return View(takmicenja);
@@ -45,20 +45,14 @@ namespace BrainfinityWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(TakmicenjeViewModel takmicenje)
+        public async Task<IActionResult> Create(TakmicenjeViewModel takmicenje)
         {
-            using (var client = new HttpClient())
+            var client = _clientFactory.CreateClient("takmicenje");
+            var post = await client.PostAsJsonAsync<TakmicenjeViewModel>("takmicenje", takmicenje);
+
+            if (post.IsSuccessStatusCode)
             {
-                client.BaseAddress = new Uri("https://localhost:5001/api/");
-
-                var postTask = client.PostAsJsonAsync<TakmicenjeViewModel>("takmicenje", takmicenje);
-                postTask.Wait();
-
-                var result = postTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Index");
-                }
+                return RedirectToAction("Index");
             }
 
             ModelState.AddModelError(string.Empty, "Greska");
