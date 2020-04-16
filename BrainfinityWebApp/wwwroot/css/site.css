@@ -273,6 +273,36 @@ h2 {
     font-size: 16px;
 }
 
+nav ol.breadcrumb {
+    background-color: white;
+    padding: 20px;
+}
+
+    nav ol.breadcrumb li.breadcrumb-item {
+        color: black;
+        font-family: darker_grotesquebold;
+        font-size: 19px;
+    }
+
+        nav ol.breadcrumb li.breadcrumb-item::before {
+            display: none;
+        }
+
+        nav ol.breadcrumb li.breadcrumb-item a {
+            color: black;
+        }
+
+li.separator {
+    font-family: darker_grotesqueblack;
+    font-size: 19px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    li.separator::before {
+        display: none;
+    }
+
 @media only screen and (max-width: 450px) {
     .sidebar {
         width: 100%;

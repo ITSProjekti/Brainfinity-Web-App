@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartBreadcrumbs.Extensions;
 
 namespace BrainfinityWebApp
 {
@@ -25,6 +26,10 @@ namespace BrainfinityWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient("takmicenje", c => c.BaseAddress = new Uri("https://localhost:5001/api/"));
+            services.AddBreadcrumbs(GetType().Assembly, options =>
+            {
+                options.SeparatorElement = "<li class=\"separator\">></li>";
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {

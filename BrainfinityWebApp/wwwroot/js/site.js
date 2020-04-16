@@ -49,6 +49,17 @@ $(document).ready(function () {
             }
         }
     });
+
+    if ($(".breadcrumb").children("li").length == 1) {
+        $("#meni").children(".item").each(function () {
+            var item = $(this);
+            var itemId = item.attr("id");
+            var itemIcon = item.children("a").children("img");
+
+            item.removeClass("active");
+            itemIcon.attr("src", "../images/" + itemId + "-dark.png");
+        })
+    }
 });
 
 function defaultScreen() {

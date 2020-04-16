@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BrainfinityWebApp.Models;
 using System.Net.Http;
+using SmartBreadcrumbs.Attributes;
 
 namespace BrainfinityWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        [DefaultBreadcrumb("Home")]
         public IActionResult Index()
         {
             return View();

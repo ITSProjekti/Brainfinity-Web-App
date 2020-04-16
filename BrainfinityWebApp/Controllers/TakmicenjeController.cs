@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BrainfinityWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
 
 namespace BrainfinityWebApp.Controllers
 {
@@ -17,6 +18,7 @@ namespace BrainfinityWebApp.Controllers
             _clientFactory = client;
         }
 
+        [Breadcrumb("Takmicenja", FromAction = ("Index"), FromController = typeof(HomeController))]
         public async Task<IActionResult> Index()
         {
             IEnumerable<TakmicenjeViewModel> takmicenja = null;
@@ -39,6 +41,7 @@ namespace BrainfinityWebApp.Controllers
             return View(takmicenja);
         }
 
+        [Breadcrumb("Novo takmicenje", FromAction = "Index", FromController = typeof(TakmicenjeController))]
         public IActionResult Create()
         {
             return View();
