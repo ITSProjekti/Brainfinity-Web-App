@@ -6,19 +6,26 @@ using System.Threading.Tasks;
 using BrainfinityWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Attributes;
+using BrainfinityWebApp.ViewModels;
+using System.Globalization;
+using System.Net.Http.Headers;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BrainfinityWebApp.Controllers
 {
     public class TakmicenjeController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IHostingEnvironment _environment;
 
-        public TakmicenjeController(IHttpClientFactory client)
+        public TakmicenjeController(IHttpClientFactory client, IHostingEnvironment environment)
         {
             _clientFactory = client;
+            _environment = environment;
         }
 
-        [Breadcrumb("Takmicenja", FromAction = ("Index"), FromController = typeof(HomeController))]
+        [Breadcrumb("Takmičenja", FromAction = ("Index"), FromController = typeof(HomeController))]
         public async Task<IActionResult> Index()
         {
             IEnumerable<TakmicenjeViewModel> takmicenja = null;
@@ -38,19 +45,58 @@ namespace BrainfinityWebApp.Controllers
                 ModelState.AddModelError(string.Empty, "Greska");
             }
 
-            return View(takmicenja);
+            NovoTakmicenjeSvaTakmicenja viewModel = new NovoTakmicenjeSvaTakmicenja()
+            {
+                SvaTakmicenja = takmicenja,
+            };
+
+            return View(viewModel);
         }
 
-        [Breadcrumb("Novo takmicenje", FromAction = "Index", FromController = typeof(TakmicenjeController))]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //[Breadcrumb("Novo takmicenje", FromAction = "Index", FromController = typeof(TakmicenjeController))]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Create(TakmicenjeViewModel takmicenje)
         {
             var client = _clientFactory.CreateClient("takmicenje");
+
+            var newFileName = string.Empty;
+
+            if (HttpContext.Request.Form.Files != null)
+            {
+                var fileName = string.Empty;
+
+                var files = HttpContext.Request.Form.Files;
+
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                        var myUniqueFileName = Convert.ToString(Guid.NewGuid());
+
+                        var FileExtension = Path.GetExtension(fileName);
+
+                        newFileName = myUniqueFileName + FileExtension;
+
+                        fileName = Path.Combine(_environment.WebRootPath, "images") + $@"\{newFileName}";
+
+                        takmicenje.Slika = "images/" + newFileName;
+
+                        using (FileStream fs = System.IO.File.Create(fileName))
+                        {
+                            file.CopyTo(fs);
+                            fs.Flush();
+                        }
+                    }
+                }
+            }
+            takmicenje.Status = Status.Nastupajuce;
             var post = await client.PostAsJsonAsync<TakmicenjeViewModel>("takmicenje", takmicenje);
 
             if (post.IsSuccessStatusCode)

@@ -38,6 +38,12 @@ namespace BrainfinityWebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<RequestLocalizationOptions>(options =>
+                {
+                    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("de-DE");
+                    options.RequestCultureProviders.Clear();
+                }
+            );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -54,6 +60,7 @@ namespace BrainfinityWebApp
                 app.UseHsts();
             }
 
+            app.UseRequestLocalization();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

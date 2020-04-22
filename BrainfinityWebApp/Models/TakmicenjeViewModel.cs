@@ -18,10 +18,12 @@ namespace BrainfinityWebApp.Models
         public int Id { get; set; }
         public string Naziv { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [DataType(DataType.Date)]
         public DateTime datumOd { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DatumDo { get; set; }
+
         public string Slika { get; set; }
         public Status Status { get; set; }
     }

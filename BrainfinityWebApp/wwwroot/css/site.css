@@ -65,8 +65,8 @@ body {
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 .wrapper {
@@ -145,9 +145,6 @@ body {
 .active {
     background-color: red;
 }
-
-    .active a#takmicenje {
-    }
 
     .active a span {
         color: white;
@@ -232,6 +229,10 @@ body {
         font-size: 24px;
     }
 
+.panel-body img {
+    overflow: hidden;
+}
+
 .naziv-takmicenja {
     font-family: darker_grotesqueblack;
     font-size: 16px;
@@ -260,7 +261,7 @@ img.arhivirano-slika {
 
 .takmicenje-slika {
     width: 100%;
-    height: auto;
+    height: 112px;
 }
 
 h2 {
@@ -302,6 +303,21 @@ li.separator {
     li.separator::before {
         display: none;
     }
+
+#btn-dodajNovo {
+    font-family: darker_grotesqueblack;
+    font-size: 19px;
+}
+
+    #btn-dodajNovo span img {
+        width: 25px;
+        height: auto;
+    }
+
+.modal-title {
+    font-family: darker_grotesqueblack;
+    font-size: 30px;
+}
 
 @media only screen and (max-width: 450px) {
     .sidebar {
