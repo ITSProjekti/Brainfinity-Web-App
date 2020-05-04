@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -113,6 +113,13 @@ namespace BrainfinityWebApp.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, "takmicenje/" + id);
+            var client = _clientFactory.CreateClient("takmicenje");
+            await client.SendAsync(request);
+
             return RedirectToAction("Index");
         }
     }

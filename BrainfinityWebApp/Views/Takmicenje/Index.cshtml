@@ -1,4 +1,4 @@
-@model BrainfinityWebApp.ViewModels.NovoTakmicenjeSvaTakmicenja
+﻿@model BrainfinityWebApp.ViewModels.NovoTakmicenjeSvaTakmicenja
 
 <div class="row">
     <div class="col-md-7 col-lg-4 col-sm-12 col-xs-12">
@@ -99,10 +99,9 @@
 <br />
 <div class="row">
     <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12">
-        <div class="panel panel-default panel-status"
-             data-toggle="collapse"
-             data-target="#collapseNastupajuce">
-            <div class="panel-heading panel-heading-status">
+        <div class="panel panel-default panel-status">
+            <div class="panel-heading panel-heading-status" data-toggle="collapse"
+                 data-target="#collapseNastupajuce">
                 <h4 class="panel-title">
                     Nastupajuća takmičenja
                 </h4>
@@ -113,17 +112,23 @@
                     <div class="row">
                         @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Nastupajuce))
                         {
+
                             <div class="col-md-4">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <img src="@takmicenje.Slika" class="takmicenje-slika" />
                                     </div>
                                     <div class="panel-footer">
+                                        <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#@takmicenje.Id">
+                                            Obrisi
+                                        </button>
+
                                         <span class="naziv-takmicenja">@takmicenje.Naziv</span>
                                         <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
                                     </div>
                                 </div>
                             </div>
+
                         }
                     </div>
                 </div>
@@ -134,10 +139,9 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12">
-        <div class="panel panel-default panel-status"
-             data-toggle="collapse"
-             data-target="#collapseAktivno">
-            <div class="panel-heading panel-heading-status">
+        <div class="panel panel-default panel-status">
+            <div class="panel-heading panel-heading-status" data-toggle="collapse"
+                 data-target="#collapseAktivno">
                 <h4 class="panel-title">
                     Aktivno takmičenje
                 </h4>
@@ -154,6 +158,9 @@
                                         <img src="@takmicenje.Slika" class="takmicenje-slika" />
                                     </div>
                                     <div class="panel-footer">
+                                        <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#@takmicenje.Id">
+                                            Obrisi
+                                        </button>
                                         <span class="naziv-takmicenja">@takmicenje.Naziv</span>
                                         <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
                                     </div>
@@ -169,10 +176,9 @@
 
 <div class="row">
     <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12">
-        <div class="panel panel-default panel-status"
-             data-toggle="collapse"
-             data-target="#collapseArhivirano">
-            <div class="panel-heading panel-heading-status">
+        <div class="panel panel-default panel-status">
+            <div class="panel-heading panel-heading-status" data-toggle="collapse"
+                 data-target="#collapseArhivirano">
                 <h4 class="panel-title">
                     Arhiva takmičenja
                 </h4>
@@ -190,6 +196,9 @@
                                         <div class="arhivirano-takmicenje"></div>
                                     </div>
                                     <div class="panel-footer">
+                                        <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#@takmicenje.Id">
+                                            Obrisi
+                                        </button>
                                         <span class="naziv-takmicenja">@takmicenje.Naziv</span>
                                         <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
                                     </div>
@@ -203,7 +212,30 @@
     </div>
 </div>
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja)
+{
+
+    @using (Html.BeginForm("Delete", "Takmicenje", new { id = takmicenje.Id }))
+    {
+        <div class="modal fade" id="@takmicenje.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Brisanje takmičenja</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Da li ste sigurni da želite da obrišete takmičenje "<b>@takmicenje.Naziv</b>"</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Obriši</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
 
 @section Scripts{
 
