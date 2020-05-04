@@ -1,4 +1,4 @@
-﻿@model BrainfinityWebApp.ViewModels.NovoTakmicenjeSvaTakmicenja
+@model BrainfinityWebApp.ViewModels.NovoTakmicenjeSvaTakmicenja
 
 <div class="row">
     <div class="col-md-7 col-lg-4 col-sm-12 col-xs-12">
@@ -23,7 +23,8 @@
                         <h4 class="modal-title">Novo takmičenje</h4>
                     </div>
                 </div>
-                @using (Html.BeginForm("Create", "Takmicenje", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+
+                @using (Html.BeginForm("Create", "Takmicenje", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "forma" }))
                 {
                     <div class="modal-body">
 
@@ -37,6 +38,7 @@
                                         @Html.LabelFor(m => Model.Takmicenje.Naziv)
                                         @*<input name="novoTakmicenjeNaziv" type="text" id="novoTakmicenjeNaziv" class="form-control" />*@
                                         @Html.TextBoxFor(m => Model.Takmicenje.Naziv, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => Model.Takmicenje.Naziv, null, new { @class = "text-danger" })
                                     </div>
                                 </div>
                                 <div class="col-md-1"></div>
@@ -52,8 +54,9 @@
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </div>
                                             @*<input type="text" id="txtDatumOd" class="form-control datepicker">*@
-                                            @Html.TextBoxFor(m => Model.Takmicenje.datumOd, null, new { @class = "form-control", @id = "txtDatumOd" })
+                                            @Html.TextBoxFor(m => Model.Takmicenje.datumOd, null, new { @class = "form-control datepicker", @id = "txtDatumOd" })
                                         </div>
+                                        @Html.ValidationMessageFor(m => Model.Takmicenje.datumOd, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-5">
                                         <label>&nbsp;</label>
@@ -63,8 +66,9 @@
                                             </div>
                                             @*<input type="text" id="txtDatumDo" class="form-control">*@
 
-                                            @Html.TextBoxFor(m => Model.Takmicenje.DatumDo, null, new { @class = "form-control", @id = "txtDatumDo" })
+                                            @Html.TextBoxFor(m => Model.Takmicenje.DatumDo, null, new { @class = "form-control datepicker", @id = "txtDatumDo" })
                                         </div>
+                                        @Html.ValidationMessageFor(m => Model.Takmicenje.DatumDo, null, new { @class = "text-danger" })
                                     </div>
                                     <div class="col-md-1"></div>
                                 </div>
@@ -79,6 +83,8 @@
                                 <div class="col-md-1"></div>
                             </div>
                         </div>
+                        <div class="greska"></div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
@@ -200,8 +206,10 @@
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 @section Scripts{
+
     <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.sr-latin.min.js" charset="utf-8"></script>
+
     <script>
         $(document).ready(function () {
 
@@ -211,7 +219,22 @@
                 language: "sr-latin",
 
             });
+
+            $('.divDatepicker').datepicker().on('changeDate', function () {
+                $(this).children('.datepicker').valid();
+
+            })
+
+            $('.datepicker').attr("autocomplete", "off");
+
         })
     </script>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <script>
+            $("#novoTakmicenjeModal").modal("show");
+        </script>
+    }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 }

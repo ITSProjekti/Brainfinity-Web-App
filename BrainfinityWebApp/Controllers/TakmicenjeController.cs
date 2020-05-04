@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -49,6 +49,11 @@ namespace BrainfinityWebApp.Controllers
             {
                 SvaTakmicenja = takmicenja,
             };
+
+            if (TempData["noviGreska"] != null)
+            {
+                ModelState.AddModelError(string.Empty, TempData["noviGreska"].ToString());
+            }
 
             return View(viewModel);
         }
@@ -104,9 +109,11 @@ namespace BrainfinityWebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError(string.Empty, "Greska");
+            TempData["noviGreska"] = post.Content.ReadAsStringAsync().Result;
 
-            return View(takmicenje);
+            return RedirectToAction("Index");
+        }
+            return RedirectToAction("Index");
         }
     }
 }
