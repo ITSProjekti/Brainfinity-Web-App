@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json;
 
 namespace BrainfinityWebApp.Controllers
 {
@@ -119,6 +120,52 @@ namespace BrainfinityWebApp.Controllers
             var request = new HttpRequestMessage(HttpMethod.Delete, "takmicenje/" + id);
             var client = _clientFactory.CreateClient("takmicenje");
             await client.SendAsync(request);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(TakmicenjeViewModel takmicenje, int id)
+        {
+            var client = _clientFactory.CreateClient("takmicenje");
+
+            //kod vezan za sliku treba da se prebaci u zasebnu funkciju
+            var newFileName = string.Empty;
+
+            if (HttpContext.Request.Form.Files != null)
+            {
+                var fileName = string.Empty;
+
+                var files = HttpContext.Request.Form.Files;
+
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                        var myUniqueFileName = Convert.ToString(Guid.NewGuid());
+                        var FileExtension = Path.GetExtension(fileName);
+
+                        newFileName = myUniqueFileName + FileExtension;
+
+                        fileName = Path.Combine(_environment.WebRootPath, "images") + $@"\{newFileName}";
+                        takmicenje.Slika = "images/" + newFileName;
+
+                        using (FileStream fs = System.IO.File.Create(fileName))
+                        {
+                            file.CopyTo(fs);
+                            fs.Flush();
+                        }
+                    }
+                }
+            }
+
+            var response = await client.PutAsJsonAsync("takmicenje/" + id, takmicenje);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode(500, response.Content.ReadAsStringAsync().Result);
+            }
 
             return RedirectToAction("Index");
         }

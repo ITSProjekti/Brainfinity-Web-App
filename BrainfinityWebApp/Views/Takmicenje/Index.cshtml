@@ -112,7 +112,7 @@
                     <div class="row">
                         @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Nastupajuce))
                         {
-
+                            var updateId = "update" + takmicenje.Id;
                             <div class="col-md-4">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
@@ -122,7 +122,9 @@
                                         <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#@takmicenje.Id">
                                             Obrisi
                                         </button>
-
+                                        <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#@updateId">
+                                            Izmeni
+                                        </button>
                                         <span class="naziv-takmicenja">@takmicenje.Naziv</span>
                                         <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
                                     </div>
@@ -152,6 +154,7 @@
                     <div class="row">
                         @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Aktivno))
                         {
+                            var updateId = "update" + takmicenje.Id;
                             <div class="col-md-4">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
@@ -160,6 +163,9 @@
                                     <div class="panel-footer">
                                         <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#@takmicenje.Id">
                                             Obrisi
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#@updateId">
+                                            Izmeni
                                         </button>
                                         <span class="naziv-takmicenja">@takmicenje.Naziv</span>
                                         <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
@@ -189,6 +195,7 @@
                     <div class="row">
                         @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Arhivirano))
                         {
+                            var updateId = "update" + takmicenje.Id;
                             <div class="col-md-4">
                                 <div class="panel panel-default panel-arhivirano">
                                     <div class="panel-body">
@@ -198,6 +205,9 @@
                                     <div class="panel-footer">
                                         <button type="button" class="btn btn-danger btn-sm pull-right" data-toggle="modal" data-target="#@takmicenje.Id">
                                             Obrisi
+                                        </button>
+                                        <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#@updateId">
+                                            Izmeni
                                         </button>
                                         <span class="naziv-takmicenja">@takmicenje.Naziv</span>
                                         <span class="datum-takmicenja">@takmicenje.datumOd.Date.ToShortDateString()</span>
@@ -235,6 +245,94 @@
             </div>
         </div>
     }
+
+    var updateId = "update" + takmicenje.Id;
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="@updateId">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11">
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span style="color:black;" aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Izmeni takmičenje</h4>
+                    </div>
+                </div>
+
+                @using (Html.BeginForm("Edit", "Takmicenje", new { id = takmicenje.Id }, FormMethod.Post, null, new { @enctype = "multipart/form-data" }))
+                {
+                    <div class="modal-body">
+
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        @*<label>Naziv takmičenja</label>*@
+                                        @Html.LabelFor(m => takmicenje.Naziv)
+                                        @*<input name="novoTakmicenjeNaziv" type="text" id="novoTakmicenjeNaziv" class="form-control" />*@
+                                        @Html.TextBoxFor(m => takmicenje.Naziv, null, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => takmicenje.Naziv, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-5">
+                                        <label>Datum održavanja</label>
+                                        <div class="input-group date divDatepicker" data-provide="datepicker">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                            @*<input type="text" id="txtDatumOd" class="form-control datepicker">*@
+                                            @Html.TextBoxFor(m => takmicenje.datumOd, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker", @id = "txtDatumOd" })
+                                        </div>
+                                        @Html.ValidationMessageFor(m => takmicenje.datumOd, null, new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>&nbsp;</label>
+                                        <div class="input-group date divDatepicker" data-provide="datepicker">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </div>
+                                            @*<input type="text" id="txtDatumDo" class="form-control">*@
+
+                                            @Html.TextBoxFor(m => takmicenje.DatumDo, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker", @id = "txtDatumDo" })
+                                        </div>
+                                        @Html.ValidationMessageFor(m => takmicenje.DatumDo, null, new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <input type="file" name="slikaTakmicenja" id="slikaTakmicenja" />
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </div>
+                        @Html.HiddenFor(m => takmicenje.Slika)
+                        @Html.HiddenFor(m => takmicenje.Status)
+                        <div class="greska"></div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                        <button type="submit" class="btn btn-primary" id="btnKreiraj">Izmeni</button>
+                    </div>
+                }
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 }
 
 @section Scripts{
