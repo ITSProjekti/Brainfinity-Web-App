@@ -26,6 +26,7 @@ namespace BrainfinityWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient("takmicenje", c => c.BaseAddress = new Uri("https://localhost:5001/api/"));
+
             services.AddBreadcrumbs(GetType().Assembly, options =>
             {
                 options.SeparatorElement = "<li class=\"separator\">></li>";
