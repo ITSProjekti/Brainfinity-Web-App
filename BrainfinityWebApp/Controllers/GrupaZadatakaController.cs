@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -75,6 +75,13 @@ namespace BrainfinityWebApp.Controllers
 
             return RedirectToAction("Index", new { takmicenjeId = grupaZadataka.TakmicenjeId });
         }
+
+        public async Task<IActionResult> Edit(GrupaZadataka grupaZadataka, int grupaId)
+        {
+            var client = _client.CreateClient("takmicenje");
+            var response = await client.PutAsJsonAsync<GrupaZadataka>("GrupaZadataka/" + grupaId, grupaZadataka);
+
+            return RedirectToAction("Index", new { takmicenjeId = grupaZadataka.TakmicenjeId });
         }
     }
 }

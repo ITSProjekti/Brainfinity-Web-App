@@ -1,4 +1,4 @@
-@model BrainfinityWebApp.ViewModels.NovaGrupaSveGrupeZadataka
+﻿@model BrainfinityWebApp.ViewModels.NovaGrupaSveGrupeZadataka
 
 <div class="row">
     <div class="col-md-6">
@@ -225,6 +225,54 @@
 
     }
 
+    foreach (var grupa in Model.SveGrupe)
+    {
+        var updateId = "update" + grupa.Id;
+        <div class="modal fade" id="@updateId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="row">
+                            @*<div class="col-md-1"></div>*@
+                            <div class="col-md-10 col-lg-offset-1">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span aria-hidden="true">&times;</span></button>
+
+                                <h4 class="modal-title" id="myModalLabel">Izmeni grupu zadataka</h4>
+                            </div>
+                        </div>
+                    </div>
+                    @using (Html.BeginForm("Edit", "GrupaZadataka", new { grupaId = grupa.Id }, FormMethod.Post, null, null))
+                    {
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => grupa.Razred.NivoSkoleId, new SelectList(Model.NivoiSkole, "Id", "NivoSkoleNaziv"), "Odaberite nivo škole", new { @class = "form-control", @id = "nivoSkoleEdit" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(m => m.RazredId, new SelectList(Enumerable.Empty<Razred>()), "Odaberite razred", new { @class = "form-control", @id = "razrediEdit" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-10 col-lg-offset-1">
+                                    @Html.HiddenFor(m => m.TakmicenjeId)
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                                    <button type="submit" class="btn btn-primary">Potvrdi</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
 @section Scripts{
     <script>
         $('#nivoSkole').change(function () {
@@ -241,6 +289,40 @@
                     items += "<option value='" + razred.value + "'>" + razred.text + "</option>";
                 });
                 $('#razredi').html(items);
+            })
+        })
+
+        $(document).ready(function () {
+            var url = '@Url.Content("~/")' + "GrupaZadataka/GetRazredi";
+            var ddlSource = "#nivoSkoleEdit";
+
+            var jsonRazredi = JSON.stringify(@Json.Serialize(Model.Razredi));
+            var jsonGrupeZadataka = JSON.stringify(@Json.Serialize(Model.SveGrupe));
+
+            $.getJSON(url, { nivoSkoleId: $(ddlSource).val(), sviRazredi: jsonRazredi}, function (data) {
+                var items = '<option>Odaberite razred</option>';
+
+                $.each(data, function (i, razred) {
+                    items += "<option value='" + razred.value + "'>" + razred.text + "</option>";
+                });
+                $('#razrediEdit').html(items);
+            })
+        })
+
+        $('#nivoSkoleEdit').change(function () {
+            var url = '@Url.Content("~/")' + "GrupaZadataka/GetRazredi";
+            var ddlSource = "#nivoSkoleEdit";
+
+            var jsonRazredi = JSON.stringify(@Json.Serialize(Model.Razredi));
+            var jsonGrupeZadataka = JSON.stringify(@Json.Serialize(Model.SveGrupe));
+
+            $.getJSON(url, { nivoSkoleId: $(ddlSource).val(), sviRazredi: jsonRazredi}, function (data) {
+                var items = '<option>Odaberite razred</option>';
+                //$('#razrediEdit').empty();
+                $.each(data, function (i, razred) {
+                    items += "<option value='" + razred.value + "'>" + razred.text + "</option>";
+                });
+                $('#razrediEdit').html(items);
             })
         })
     </script>
