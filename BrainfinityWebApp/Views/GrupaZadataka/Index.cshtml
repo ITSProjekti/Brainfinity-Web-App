@@ -1,40 +1,152 @@
-﻿@model IEnumerable<GrupaZadatakaViewModel>
+@model BrainfinityWebApp.ViewModels.NovaGrupaSveGrupeZadataka
 
-@if (Model.Count() != 0)
-{
-
-    <div class="row">
-        <div class="col-md-4">
-            <h2>@Model.First().Takmicenje.Naziv</h2>
-        </div>
-        <div class="col-md-4">
-            <a href="#" class="btn btn-danger pull-right grupa-zadataka-dugme" style="margin-top:20px; margin-bottom:10px; font-size:16px;">
-                <span><img src="~/images/user-plus.png" style="height:16px; width: 16px;" /> &nbsp;Prijavi tim</span>
-            </a>
-        </div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>@ViewData["TakmicenjeNaziv"]</h2>
     </div>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="col-md-4">
+        <a href="#" class="btn btn-danger pull-right grupa-zadataka-dugme" style="margin-top:20px; margin-bottom:10px; font-size:16px;">
+            <span><img src="~/images/user-plus.png" style="height:16px; width: 16px;" /> &nbsp;Prijavi tim</span>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
 
-            <h3>Osnovna škola</h3>
-        </div>
-        <div class="col-md-4">
-            <a href="#" class="btn btn-primary pull-right grupa-zadataka-dugme" style="margin-top: 20px; margin-bottom:10px; font-size:16px;">
+        <h3>Osnovna škola</h3>
+    </div>
+    <div class="col-md-4">
+        @*<a href="#" class="btn btn-primary pull-right grupa-zadataka-dugme" style="margin-top: 20px; margin-bottom:10px; font-size:16px;">
                 <span>
                     <img src="~/images/layers.png" style="height:16px; width: 16px;" />&nbsp; Nova grupa zadataka
                 </span>
-            </a>
+            </a>*@
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary grupa-zadataka-dugme pull-right" data-toggle="modal" data-target="#novaGrupaModal">
+            <span>
+                <img src="~/images/layers.png" style="height:16px; width: 16px;" />&nbsp; Nova grupa zadataka
+            </span>
+        </button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="novaGrupaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    @*<div class="col-md-1"></div>*@
+                    <div class="col-md-10 col-lg-offset-1">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span aria-hidden="true">&times;</span></button>
+
+                        <h4 class="modal-title" id="myModalLabel">Nova grupa zadataka</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateGrupaZadataka", "GrupaZadataka"))
+            {
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.NivoSkoleId, new SelectList(Model.NivoiSkole, "Id", "NivoSkoleNaziv"), "Odaberite nivo škole", new { @class = "form-control", @id = "nivoSkole" })
+                            @*@Html.ValidationMessageFor(m => m.GrupaZadataka.RazredId, null, new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.RazredId, new SelectList(Enumerable.Empty<Razred>()), "Odaberite razred", new { @class = "form-control", @id = "razredi" })
+                            @*@Html.ValidationMessageFor(m => m.GrupaZadataka.Razred.NivoSkoleId, null, new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-10 col-lg-offset-1">
+                            @Html.HiddenFor(m => m.TakmicenjeId)
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                            <button type="submit" class="btn btn-primary">Kreiraj</button>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-
+</div>
+@if (Model.SveGrupe.Count() != 0)
+{
     <div class="row">
 
-        <div class="col-md-8">
+        <div class="col-md-12">
 
-            @foreach (var grupa in Model.Where(m => m.NivoSkole == "osnovna"))
+            @foreach (var grupa in Model.SveGrupe.Where(m => m.Razred.NivoSkoleId == 1))
             {
-                @grupa.Takmicenje.Naziv
-                @grupa.NivoSkole
+                var updateId = "update" + grupa.Id;
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="grupa-zadataka">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <h4 class="grupa-zadataka-naslov">@grupa.Razred.RazredNaziv</h4>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#obrisiGrupaModal">
+                                        <img src="~/images/trash.png" data-toggle="tooltip" title="Obriši" />
+                                    </button>
+                                    <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@updateId">
+                                        <img src="~/images/edit.png" data-toggle="tooltip" title="Izmeni" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="grupa-zadataka-zadatak">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h5>Novi zadatak</h5>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="#" class="pull-right">
+                                                    <img src="~/images/x-circle.png" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                &nbsp;
+                                            </div>
+                                            <div class="col-md-12">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="col-md-2" style="padding-right:5px;">
+                                                    <div class="pull-right tacka"></div>
+                                                </div>
+                                                <div class="col-md-4" style="padding:0;">
+                                                    <img src="~/images/users.png" class="pull-left" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="col-md-2" style="padding-right:5px;">
+                                                    <div class="pull-right tacka"></div>
+                                                </div>
+                                                <div class="col-md-4" style="padding:0;">
+                                                    <img src="~/images/pregledac.png" class="pull-left" style="margin-top:5px;" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </div>
     </div>
@@ -45,26 +157,27 @@
         </div>
     </div>
 
-    @foreach (var grupa in Model.Where(m => m.NivoSkole == "srednja"))
+    @foreach (var grupa in Model.SveGrupe.Where(m => m.Razred.NivoSkoleId == 2))
     {
+        var updateId = "update" + grupa.Id;
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="grupa-zadataka">
                     <div class="row">
                         <div class="col-md-11">
-                            <h4 class="grupa-zadataka-naslov">@grupa.Razred. razred</h4>
+                            <h4 class="grupa-zadataka-naslov">@grupa.Razred.RazredNaziv</h4>
                         </div>
                         <div class="col-md-1">
-                            <a href="#" class="pull-left">
-                                <img src="~/images/edit.png" />
-                            </a>
-                            <a href="#" class="pull-right">
-                                <img src="~/images/trash.png" />
-                            </a>
+                            <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#obrisiGrupaModal">
+                                <img src="~/images/trash.png" data-toggle="tooltip" title="Obriši" />
+                            </button>
+                            <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@updateId">
+                                <img src="~/images/edit.png" data-toggle="tooltip" title="Izmeni" />
+                            </button>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="grupa-zadataka-zadatak">
                                 <div class="row">
                                     <div class="col-md-10">
@@ -99,7 +212,7 @@
                                             <div class="pull-right tacka"></div>
                                         </div>
                                         <div class="col-md-4" style="padding:0;">
-                                            <img src="~/images/pregledac.png" class="pull-left"  style="margin-top:5px;"/>
+                                            <img src="~/images/pregledac.png" class="pull-left" style="margin-top:5px;" />
                                         </div>
                                     </div>
                                 </div>
@@ -112,4 +225,23 @@
 
     }
 
+@section Scripts{
+    <script>
+        $('#nivoSkole').change(function () {
+            var url = '@Url.Content("~/")' + "GrupaZadataka/GetRazredi";
+            var ddlSource = "#nivoSkole";
+
+            var jsonRazredi = JSON.stringify(@Json.Serialize(Model.Razredi));
+            var jsonGrupeZadataka = JSON.stringify(@Json.Serialize(Model.SveGrupe));
+
+            $.getJSON(url, { nivoSkoleId: $(ddlSource).val(), sviRazredi: jsonRazredi}, function (data) {
+                var items = '';
+                $('#razredi').empty();
+                $.each(data, function (i, razred) {
+                    items += "<option value='" + razred.value + "'>" + razred.text + "</option>";
+                });
+                $('#razredi').html(items);
+            })
+        })
+    </script>
 }

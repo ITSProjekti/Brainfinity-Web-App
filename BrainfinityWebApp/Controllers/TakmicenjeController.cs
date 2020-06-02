@@ -29,7 +29,7 @@ namespace BrainfinityWebApp.Controllers
         [Breadcrumb("Takmičenja", FromAction = ("Index"), FromController = typeof(HomeController))]
         public async Task<IActionResult> Index()
         {
-            IEnumerable<TakmicenjeViewModel> takmicenja = null;
+            IEnumerable<Takmicenje> takmicenja = null;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "takmicenje");
             var client = _clientFactory.CreateClient("takmicenje");
@@ -37,12 +37,12 @@ namespace BrainfinityWebApp.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadAsAsync<IList<TakmicenjeViewModel>>();
+                var result = await response.Content.ReadAsAsync<IList<Takmicenje>>();
                 takmicenja = result;
             }
             else
             {
-                takmicenja = Enumerable.Empty<TakmicenjeViewModel>();
+                takmicenja = Enumerable.Empty<Takmicenje>();
                 ModelState.AddModelError(string.Empty, "Greska");
             }
 
@@ -66,7 +66,7 @@ namespace BrainfinityWebApp.Controllers
         //}
 
         [HttpPost]
-        public async Task<IActionResult> Create(TakmicenjeViewModel takmicenje)
+        public async Task<IActionResult> Create(Takmicenje takmicenje)
         {
             var client = _clientFactory.CreateClient("takmicenje");
 
@@ -102,8 +102,8 @@ namespace BrainfinityWebApp.Controllers
                     }
                 }
             }
-            takmicenje.Status = Status.Nastupajuce;
-            var post = await client.PostAsJsonAsync<TakmicenjeViewModel>("takmicenje", takmicenje);
+            takmicenje.StatusId = Status.Nastupajuce;
+            var post = await client.PostAsJsonAsync<Takmicenje>("takmicenje", takmicenje);
 
             if (post.IsSuccessStatusCode)
             {
@@ -124,7 +124,7 @@ namespace BrainfinityWebApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Edit(TakmicenjeViewModel takmicenje, int id)
+        public async Task<IActionResult> Edit(Takmicenje takmicenje, int id)
         {
             var client = _clientFactory.CreateClient("takmicenje");
 

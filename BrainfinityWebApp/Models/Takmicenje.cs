@@ -8,12 +8,12 @@ namespace BrainfinityWebApp.Models
 {
     public enum Status
     {
-        Arhivirano,
-        Aktivno,
-        Nastupajuce
+        Arhivirano = 1,
+        Aktivno = 2,
+        Nastupajuce = 3
     }
 
-    public class TakmicenjeViewModel
+    public class Takmicenje
     {
         public int Id { get; set; }
 
@@ -31,6 +31,6 @@ namespace BrainfinityWebApp.Models
         public DateTime DatumDo { get; set; }
 
         public string Slika { get; set; }
-        public Status Status { get; set; }
+        public Status StatusId { get; set; }
     }
 }

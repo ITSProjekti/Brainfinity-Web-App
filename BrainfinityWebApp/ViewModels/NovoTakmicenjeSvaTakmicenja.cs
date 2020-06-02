@@ -8,7 +8,7 @@ namespace BrainfinityWebApp.ViewModels
 {
     public class NovoTakmicenjeSvaTakmicenja
     {
-        public IEnumerable<TakmicenjeViewModel> SvaTakmicenja { get; set; }
-        public TakmicenjeViewModel Takmicenje { get; set; }
+        public IEnumerable<Takmicenje> SvaTakmicenja { get; set; }
+        public Takmicenje Takmicenje { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model BrainfinityWebApp.ViewModels.NovoTakmicenjeSvaTakmicenja
 
 <div class="row">
-    <div class="col-md-7 col-lg-4 col-sm-12 col-xs-12">
+    <div class="col-md-7 col-lg-7 col-sm-12 col-xs-12">
         <h2>Takmičenje</h2>
     </div>
     <div class="col-md-5 col-lg-3 col-sm-6 col-xs-12">
@@ -16,11 +16,11 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <div class="col-md-1"></div>
-                    <div class="col-md-11">
-
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span style="color:black;" aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Novo takmičenje</h4>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span style="color:black;" aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Novo takmičenje</h4>
+                        </div>
                     </div>
                 </div>
 
@@ -31,8 +31,7 @@
                         <div class="container-fluid">
 
                             <div class="row">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10">
+                                <div class="col-md-10 col-md-offset-1" style="padding:0;">
                                     <div class="form-group">
                                         @*<label>Naziv takmičenja</label>*@
                                         @Html.LabelFor(m => Model.Takmicenje.Naziv)
@@ -41,54 +40,57 @@
                                         @Html.ValidationMessageFor(m => Model.Takmicenje.Naziv, null, new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-1"></div>
                             </div>
 
                             <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-5">
-                                        <label>Datum održavanja</label>
-                                        <div class="input-group date divDatepicker" data-provide="datepicker">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
+                                <div class="col-md-10 col-md-offset-1" style="padding:0;">
+                                    <div class="form-group">
+                                        <div class="col-md-6" style="padding-left: 0;">
+                                            <label>Datum održavanja</label>
+                                            <div class="input-group date divDatepicker" data-provide="datepicker">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                                @*<input type="text" id="txtDatumOd" class="form-control datepicker">*@
+                                                @Html.TextBoxFor(m => Model.Takmicenje.datumOd, null, new { @class = "form-control datepicker", @id = "txtDatumOd" })
                                             </div>
-                                            @*<input type="text" id="txtDatumOd" class="form-control datepicker">*@
-                                            @Html.TextBoxFor(m => Model.Takmicenje.datumOd, null, new { @class = "form-control datepicker", @id = "txtDatumOd" })
+                                            @Html.ValidationMessageFor(m => Model.Takmicenje.datumOd, null, new { @class = "text-danger" })
                                         </div>
-                                        @Html.ValidationMessageFor(m => Model.Takmicenje.datumOd, null, new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-5">
-                                        <label>&nbsp;</label>
-                                        <div class="input-group date divDatepicker" data-provide="datepicker">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </div>
-                                            @*<input type="text" id="txtDatumDo" class="form-control">*@
+                                        <div class="col-md-6" style="padding-right: 0;">
+                                            <label>&nbsp;</label>
+                                            <div class="input-group date divDatepicker" data-provide="datepicker">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                                @*<input type="text" id="txtDatumDo" class="form-control">*@
 
-                                            @Html.TextBoxFor(m => Model.Takmicenje.DatumDo, null, new { @class = "form-control datepicker", @id = "txtDatumDo" })
+                                                @Html.TextBoxFor(m => Model.Takmicenje.DatumDo, null, new { @class = "form-control datepicker", @id = "txtDatumDo" })
+                                            </div>
+                                            @Html.ValidationMessageFor(m => Model.Takmicenje.DatumDo, null, new { @class = "text-danger" })
                                         </div>
-                                        @Html.ValidationMessageFor(m => Model.Takmicenje.DatumDo, null, new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-1"></div>
                                 </div>
                             </div>
 
                             <br />
                             <div class="row">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10">
+
+                                <div class="col-md-10 col-md-offset-1" style="padding:0;">
                                     <input type="file" name="slikaTakmicenja" id="slikaTakmicenja" />
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
+                            <div class="greska"></div>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         </div>
-                        <div class="greska"></div>
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
-                        <button type="submit" class="btn btn-primary" id="btnKreiraj">Kreiraj</button>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                                <button type="submit" class="btn btn-primary" id="btnKreiraj">Kreiraj</button>
+                            </div>
+                        </div>
                     </div>
                 }
             </div><!-- /.modal-content -->
@@ -98,25 +100,25 @@
 <br />
 <br />
 <div class="row">
-    <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12">
+    <div class="col-md-12 col-lg-10 col-sm-12 col-xs-12">
         <div class="panel panel-default panel-status">
             <div class="panel-heading panel-heading-status" data-toggle="collapse"
                  data-target="#collapseNastupajuce">
                 <h4 class="panel-title">
                     Nastupajuća takmičenja
                 </h4>
-                (@Model.SvaTakmicenja.Where(t => t.Status == Status.Nastupajuce).Count())
+                (@Model.SvaTakmicenja.Where(t => t.StatusId == Status.Nastupajuce).Count())
             </div>
             <div id="collapseNastupajuce" class="panel-collapse collapse">
                 <div class="panel-body panel-body-status">
                     <div class="row">
-                        @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Nastupajuce))
+                        @foreach (Takmicenje takmicenje in Model.SvaTakmicenja.Where(t => t.StatusId == Status.Nastupajuce))
                         {
                             var updateId = "update" + takmicenje.Id;
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                        <a href="@Url.Action("Index", "GrupaZadataka", new { takmicenjeId = takmicenje.Id})">
+                                        <a href="@Url.Action("Index", "GrupaZadataka", new { takmicenjeId = takmicenje.Id, nazivTakmicenja = takmicenje.Naziv})">
                                             <img src="@takmicenje.Slika" class="takmicenje-slika" />
                                         </a>
                                     </div>
@@ -142,22 +144,22 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12">
+    <div class="col-md-12 col-lg-10 col-sm-12 col-xs-12">
         <div class="panel panel-default panel-status">
             <div class="panel-heading panel-heading-status" data-toggle="collapse"
                  data-target="#collapseAktivno">
                 <h4 class="panel-title">
                     Aktivno takmičenje
                 </h4>
-                (@Model.SvaTakmicenja.Where(t => t.Status == Status.Aktivno).Count())
+                (@Model.SvaTakmicenja.Where(t => t.StatusId == Status.Aktivno).Count())
             </div>
             <div id="collapseAktivno" class="panel-collapse collapse">
                 <div class="panel-body panel-body-status">
                     <div class="row">
-                        @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Aktivno))
+                        @foreach (Takmicenje takmicenje in Model.SvaTakmicenja.Where(t => t.StatusId == Status.Aktivno))
                         {
                             var updateId = "update" + takmicenje.Id;
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <img src="@takmicenje.Slika" class="takmicenje-slika" />
@@ -183,22 +185,22 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-lg-7 col-sm-12 col-xs-12">
+    <div class="col-md-12 col-lg-10 col-sm-12 col-xs-12">
         <div class="panel panel-default panel-status">
             <div class="panel-heading panel-heading-status" data-toggle="collapse"
                  data-target="#collapseArhivirano">
                 <h4 class="panel-title">
                     Arhiva takmičenja
                 </h4>
-                (@Model.SvaTakmicenja.Where(t => t.Status == Status.Arhivirano).Count())
+                (@Model.SvaTakmicenja.Where(t => t.StatusId == Status.Arhivirano).Count())
             </div>
             <div id="collapseArhivirano" class="panel-collapse collapse">
                 <div class="panel-body panel-body-status">
                     <div class="row">
-                        @foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja.Where(t => t.Status == Status.Arhivirano))
+                        @foreach (Takmicenje takmicenje in Model.SvaTakmicenja.Where(t => t.StatusId == Status.Arhivirano))
                         {
                             var updateId = "update" + takmicenje.Id;
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="panel panel-default panel-arhivirano">
                                     <div class="panel-body">
                                         <img src="@takmicenje.Slika" class="takmicenje-slika arhivirano-slika" />
@@ -224,7 +226,7 @@
     </div>
 </div>
 
-@foreach (TakmicenjeViewModel takmicenje in Model.SvaTakmicenja)
+@foreach (Takmicenje takmicenje in Model.SvaTakmicenja)
 {
 
     @using (Html.BeginForm("Delete", "Takmicenje", new { id = takmicenje.Id }))
@@ -255,11 +257,11 @@
             <div class="modal-content">
                 <div class="modal-header">
 
-                    <div class="col-md-1"></div>
-                    <div class="col-md-11">
-
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span style="color:black;" aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Izmeni takmičenje</h4>
+                    <div class="row">
+                        <div class="col-md-10 col-lg-offset-1">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span style="color:black;" aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Izmeni takmičenje</h4>
+                        </div>
                     </div>
                 </div>
 
@@ -270,8 +272,7 @@
                         <div class="container-fluid">
 
                             <div class="row">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10">
+                                <div class="col-md-10 col-lg-offset-1" style="padding:0;">
                                     <div class="form-group">
                                         @*<label>Naziv takmičenja</label>*@
                                         @Html.LabelFor(m => takmicenje.Naziv)
@@ -280,56 +281,57 @@
                                         @Html.ValidationMessageFor(m => takmicenje.Naziv, null, new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                <div class="col-md-1"></div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group">
-                                    <div class="col-md-1"></div>
-                                    <div class="col-md-5">
-                                        <label>Datum održavanja</label>
-                                        <div class="input-group date divDatepicker" data-provide="datepicker">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
+                                    <div class="col-md-10 col-md-offset-1" style="padding:0;">
+                                        <div class="col-md-6" style="padding-left:0;">
+                                            <label>Datum održavanja</label>
+                                            <div class="input-group date divDatepicker" data-provide="datepicker">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                                @*<input type="text" id="txtDatumOd" class="form-control datepicker">*@
+                                                @Html.TextBoxFor(m => takmicenje.datumOd, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker", @id = "txtDatumOd" })
                                             </div>
-                                            @*<input type="text" id="txtDatumOd" class="form-control datepicker">*@
-                                            @Html.TextBoxFor(m => takmicenje.datumOd, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker", @id = "txtDatumOd" })
+                                            @Html.ValidationMessageFor(m => takmicenje.datumOd, null, new { @class = "text-danger" })
                                         </div>
-                                        @Html.ValidationMessageFor(m => takmicenje.datumOd, null, new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-5">
-                                        <label>&nbsp;</label>
-                                        <div class="input-group date divDatepicker" data-provide="datepicker">
-                                            <div class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </div>
-                                            @*<input type="text" id="txtDatumDo" class="form-control">*@
+                                        <div class="col-md-6" style="padding-right:0;">
+                                            <label>&nbsp;</label>
+                                            <div class="input-group date divDatepicker" data-provide="datepicker">
+                                                <div class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </div>
+                                                @*<input type="text" id="txtDatumDo" class="form-control">*@
 
-                                            @Html.TextBoxFor(m => takmicenje.DatumDo, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker", @id = "txtDatumDo" })
+                                                @Html.TextBoxFor(m => takmicenje.DatumDo, "{0:dd.MM.yyyy}", new { @class = "form-control datepicker", @id = "txtDatumDo" })
+                                            </div>
+                                            @Html.ValidationMessageFor(m => takmicenje.DatumDo, null, new { @class = "text-danger" })
                                         </div>
-                                        @Html.ValidationMessageFor(m => takmicenje.DatumDo, null, new { @class = "text-danger" })
                                     </div>
-                                    <div class="col-md-1"></div>
                                 </div>
                             </div>
 
                             <br />
                             <div class="row">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10">
+                                <div class="col-md-10 col-md-offset-1" style="padding:0">
                                     <input type="file" name="slikaTakmicenja" id="slikaTakmicenja" />
                                 </div>
-                                <div class="col-md-1"></div>
                             </div>
                         </div>
                         @Html.HiddenFor(m => takmicenje.Slika)
-                        @Html.HiddenFor(m => takmicenje.Status)
+                        @Html.HiddenFor(m => takmicenje.StatusId)
                         <div class="greska"></div>
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
-                        <button type="submit" class="btn btn-primary" id="btnKreiraj">Izmeni</button>
+                        <div class="row">
+                            <div class="col-md-10 col-lg-offset-1">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                                <button type="submit" class="btn btn-primary" id="btnKreiraj">Izmeni</button>
+                            </div>
+                        </div>
                     </div>
                 }
             </div><!-- /.modal-content -->
