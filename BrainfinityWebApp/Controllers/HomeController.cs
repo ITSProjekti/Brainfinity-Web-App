@@ -12,7 +12,7 @@ namespace BrainfinityWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        [DefaultBreadcrumb("Home")]
+        [DefaultBreadcrumb("Početna")]
         public IActionResult Index()
         {
             return View();

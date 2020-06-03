@@ -68,7 +68,11 @@
                         <div class="col-md-10 col-lg-offset-1">
                             @Html.HiddenFor(m => m.TakmicenjeId)
                             <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
-                            <button type="submit" class="btn btn-primary">Kreiraj</button>
+                            <button type="submit" class="btn btn-primary">
+                                <span>
+                                    <img src="~/images/layers.png" style="height:16px; width: 16px;" />&nbsp; Kreiraj
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -82,7 +86,7 @@
 
         <div class="col-md-12">
 
-            @foreach (var grupa in Model.SveGrupe.Where(m => m.Razred.NivoSkoleId == 1))
+            @foreach (var grupa in Model.SveGrupe.Where(m => m.Razred.NivoSkoleId == 1).OrderBy(m => m.Razred.Id))
             {
                 var updateId = "update" + grupa.Id;
                 <div class="row">
@@ -93,7 +97,7 @@
                                     <h4 class="grupa-zadataka-naslov">@grupa.Razred.RazredNaziv</h4>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#obrisiGrupaModal">
+                                    <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@grupa.Id">
                                         <img src="~/images/trash.png" data-toggle="tooltip" title="Obriši" />
                                     </button>
                                     <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@updateId">
@@ -157,7 +161,7 @@
         </div>
     </div>
 
-    @foreach (var grupa in Model.SveGrupe.Where(m => m.Razred.NivoSkoleId == 2))
+    @foreach (var grupa in Model.SveGrupe.Where(m => m.Razred.NivoSkoleId == 2).OrderBy(m => m.Razred.Id))
     {
         var updateId = "update" + grupa.Id;
         <div class="row">
@@ -168,7 +172,7 @@
                             <h4 class="grupa-zadataka-naslov">@grupa.Razred.RazredNaziv</h4>
                         </div>
                         <div class="col-md-1">
-                            <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#obrisiGrupaModal">
+                            <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@grupa.Id">
                                 <img src="~/images/trash.png" data-toggle="tooltip" title="Obriši" />
                             </button>
                             <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@updateId">
@@ -264,6 +268,47 @@
                                     @Html.HiddenFor(m => m.TakmicenjeId)
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
                                     <button type="submit" class="btn btn-primary">Potvrdi</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="@grupa.Id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="row">
+                            @*<div class="col-md-1"></div>*@
+                            <div class="col-md-10 col-lg-offset-1">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span aria-hidden="true">&times;</span></button>
+
+                                <h4 class="modal-title" id="myModalLabel">Obriši grupu zadataka</h4>
+                            </div>
+                        </div>
+                    </div>
+                    @using (Html.BeginForm("DeleteGrupaZadataka", "GrupaZadataka", new { grupaId = grupa.Id }))
+                    {
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10">
+                                    <p>Da li ste sigurni da želite da obrišete grupu zadataka "<b>@grupa.Razred.RazredNaziv</b>"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-10 col-lg-offset-1">
+                                    @Html.HiddenFor(m => m.TakmicenjeId)
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                                    <button type="submit" class="btn btn-danger">
+                                        <span>
+                                            <img src="~/images/trash-light.png" style="height:16px; width: 16px;" />&nbsp; Obriši
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

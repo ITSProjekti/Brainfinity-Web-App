@@ -43,6 +43,13 @@ namespace BrainfinityWebApp.Controllers
 
             ViewData["TakmicenjeNaziv"] = viewModel.NazivTakmicenja;
             //ViewData["TakmicenjeId"] = takmicenjeId;
+
+            var breadcrumb = new MvcBreadcrumbNode("Index", "Takmicenje", "Takmičenja");
+            var childBreadCrumb = new MvcBreadcrumbNode("Index", "GrupaZadataka", viewModel.NazivTakmicenja)
+            {
+                Parent = breadcrumb
+            };
+            ViewData["BreadcrumbNode"] = childBreadCrumb;
             return View(viewModel);
         }
 
@@ -82,6 +89,14 @@ namespace BrainfinityWebApp.Controllers
             var response = await client.PutAsJsonAsync<GrupaZadataka>("GrupaZadataka/" + grupaId, grupaZadataka);
 
             return RedirectToAction("Index", new { takmicenjeId = grupaZadataka.TakmicenjeId });
+        }
+
+        public async Task<IActionResult> DeleteGrupaZadataka(int grupaId, int takmicenjeId)
+        {
+            var client = _client.CreateClient("takmicenje");
+            var response = await client.DeleteAsync("grupaZadataka/" + grupaId);
+
+            return RedirectToAction("Index", new { takmicenjeId });
         }
     }
 }
