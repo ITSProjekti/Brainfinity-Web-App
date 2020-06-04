@@ -340,6 +340,8 @@ li.separator {
     background-color: white;
     margin-bottom: 20px;
     padding: 5px 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #CCCCCC;
 }
 
 .grupa-zadataka-naslov {
@@ -356,17 +358,50 @@ li.separator {
 }
 
 .grupa-zadataka-zadatak {
-    border: 2px dashed gray;
+    border: 0;
     border-radius: 7px;
     padding: 5px;
+    padding-top: 15px;
+    padding-left: 15px;
+    /*padding-bottom: 25px;*/
     height: 100px;
+    background-color: #EBEBEB;
 }
 
     .grupa-zadataka-zadatak h5 {
         font-family: darker_grotesqueblack;
         margin-top: 0;
-        color: gray;
+        color: black;
+        /*padding-top: 5px;
+        padding-left: 5px;*/
+        font-size: 16px;
     }
+
+.grupa-zadataka-novi-zadatak {
+    border: 2px dashed #979797;
+    border-radius: 7px;
+    padding: 5px;
+    padding-top: 15px;
+    padding-left: 15px;
+    /*padding-bottom: 25px;*/
+    height: 100px;
+}
+
+    .grupa-zadataka-novi-zadatak h5 {
+        font-family: darker_grotesqueblack;
+        margin-top: 0;
+        /*padding-top: 5px;*/
+        /*padding-left: 5px;*/
+        color: #979797;
+        font-size: 16px;
+    }
+
+.zadatak-naslov {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    letter-spacing: 0;
+}
 
 .tacka {
     margin-top: 5px;

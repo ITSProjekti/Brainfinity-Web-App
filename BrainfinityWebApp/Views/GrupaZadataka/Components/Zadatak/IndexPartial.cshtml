@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model BrainfinityWebApp.ViewModels.ZadatakIndexViewModel
+@foreach (var zadatak in Model.SviZadaci)
+{
+    <div class="col-md-2">
+        <div class="grupa-zadataka-zadatak">
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="zadatak-naslov">@zadatak.ZadatakNaziv</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-2" style="padding-right:5px;">
+                        <div class="pull-right tacka"></div>
+                    </div>
+                    <div class="col-md-3" style="padding:0;">
+                        <img src="~/images/users-dark.png" class="pull-left" style="height:18px; width:21px;" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="col-md-2" style="padding-right:5px;">
+                        <div class="pull-right tacka"></div>
+                    </div>
+                    <div class="col-md-3" style="padding:0;">
+                        <img src="~/images/pregledac-dark.png" class="pull-left" style="margin-top:5px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.SviZadaci.Count() < 5)
+{
+    <div class="col-md-2">
+        <div class="grupa-zadataka-novi-zadatak">
+            <div class="row">
+                <div class="col-md-9">
+                    <h5 class="zadatak-naslov">Novi zadatak</h5>
+                </div>
+                <div class="col-md-2">
+                    <img src="~/images/x-circle.png" class="pull-right" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-2" style="padding-right:5px;">
+                        <div class="pull-right tacka"></div>
+                    </div>
+                    <div class="col-md-3" style="padding:0;">
+                        <img src="~/images/users.png" class="pull-left" />
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="col-md-2" style="padding-right:5px;">
+                        <div class="pull-right tacka"></div>
+                    </div>
+                    <div class="col-md-3" style="padding:0;">
+                        <img src="~/images/pregledac.png" class="pull-left" style="margin-top:5px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
