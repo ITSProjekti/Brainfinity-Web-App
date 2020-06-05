@@ -11,6 +11,7 @@ namespace BrainfinityWebApp.ViewModels
     {
         public IEnumerable<GrupaZadataka> SveGrupe { get; set; }
         public GrupaZadataka GrupaZadataka { get; set; }
+        public Zadatak Zadatak { get; set; }
 
         [RegularExpression(@"\d{1,3}", ErrorMessage = "Ovo polje je obavezno")]
         public int RazredId { get; set; }

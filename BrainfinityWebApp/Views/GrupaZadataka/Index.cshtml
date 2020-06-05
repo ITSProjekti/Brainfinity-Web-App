@@ -93,11 +93,11 @@
                     <div class="col-md-10">
                         <div class="grupa-zadataka">
                             <div class="row">
-                                <div class="col-md-11">
+                                <div class="col-md-10">
                                     <h3 class="grupa-zadataka-naslov">@grupa.Razred.RazredNaziv</h3>
                                 </div>
-                                <div class="col-md-1">
-                                    <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@grupa.Id">
+                                <div class="col-md-2">
+                                    <button type="button" style="padding: 0;" class="btn-link pull-right" data-toggle="modal" data-target="#@grupa.Id">
                                         <img src="~/images/trash.png" data-toggle="tooltip" title="Obriši" />
                                     </button>
                                     <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@updateId">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @await Component.InvokeAsync("Zadatak", new { grupaId = grupa.Id })
+                                @await Component.InvokeAsync("Zadatak", new { grupaId = grupa.Id, takmicenjeId = Model.TakmicenjeId })
                             </div>
                         </div>
                     </div>
@@ -128,11 +128,11 @@
             <div class="col-md-10">
                 <div class="grupa-zadataka">
                     <div class="row">
-                        <div class="col-md-11">
+                        <div class="col-md-10">
                             <h3 class="grupa-zadataka-naslov">@grupa.Razred.RazredNaziv</h3>
                         </div>
-                        <div class="col-md-1">
-                            <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@grupa.Id">
+                        <div class="col-md-2">
+                            <button style="padding:0;" type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@grupa.Id">
                                 <img src="~/images/trash.png" data-toggle="tooltip" title="Obriši" />
                             </button>
                             <button type="button" class="btn-link pull-right" data-toggle="modal" data-target="#@updateId">
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        @await Component.InvokeAsync("Zadatak", new { grupaId = grupa.Id })
+                        @await Component.InvokeAsync("Zadatak", new { grupaId = grupa.Id, takmicenjeId = Model.TakmicenjeId })
                     </div>
                 </div>
             </div>
@@ -151,6 +151,7 @@
 
     foreach (var grupa in Model.SveGrupe)
     {
+        var zadatakModal = "zadatakGrupa" + grupa.Id;
         var updateId = "update" + grupa.Id;
         <div class="modal fade" id="@updateId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -227,6 +228,55 @@
                                     <button type="submit" class="btn btn-danger">
                                         <span>
                                             <img src="~/images/trash-light.png" style="height:16px; width: 16px;" />&nbsp; Obriši
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="@zadatakModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    @using (Html.BeginForm("CreateZadatak", "Zadatak"))
+                    {
+                        <div class="modal-header">
+                            <div class="row">
+                                @*<div class="col-md-1"></div>*@
+                                <div class="col-md-10 col-lg-offset-1">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span aria-hidden="true">&times;</span></button>
+                                    <h4 style="display:inline; margin-bottom:0;" class="modal-title" id="myModalLabel">Novi zadatak</h4>
+                                    <span class="novi-zadatak-modal-naslov">
+                                        (@Model.SveGrupe.SingleOrDefault(m => m.Id == grupa.Id).Razred.RazredNaziv)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-md-10 col-md-offset-1">
+                                @Html.LabelFor(m => Model.Zadatak.ZadatakNaziv)
+                                @Html.TextBoxFor(m => Model.Zadatak.ZadatakNaziv, new { @class = "form-control" })
+                            </div>
+                            <br />
+                            <div class="col-md-3 col-md-offset-1">
+                                @Html.LabelFor(m => m.Zadatak.Bodovi)
+                                @Html.EditorFor(m => m.Zadatak.Bodovi, new { @class = "form-control" })
+                            </div>
+                            <br />
+                            @Html.Hidden("zadatak.GrupaZadatakaId", grupa.Id)
+                            @Html.Hidden("takmicenjeId", grupa.TakmicenjeId)
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-10 col-lg-offset-1">
+
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <span>
+                                            <img src="~/images/layers.png" style="height:16px; width: 16px;" />&nbsp; Kreiraj
                                         </span>
                                     </button>
                                 </div>

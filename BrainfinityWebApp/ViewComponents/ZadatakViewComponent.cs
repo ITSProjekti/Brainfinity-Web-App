@@ -18,7 +18,7 @@ namespace BrainfinityWebApp.ViewComponents
             _client = client;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int grupaId)
+        public async Task<IViewComponentResult> InvokeAsync(int grupaId, int takmicenjeId)
         {
             ZadatakIndexViewModel viewModel = new ZadatakIndexViewModel();
             var request = new HttpRequestMessage(HttpMethod.Get, "zadatak/" + grupaId);
@@ -28,11 +28,15 @@ namespace BrainfinityWebApp.ViewComponents
             if (response.IsSuccessStatusCode)
             {
                 viewModel.SviZadaci = await response.Content.ReadAsAsync<IList<Zadatak>>();
+                viewModel.GrupaId = grupaId;
             }
             else
             {
                 viewModel.SviZadaci = Enumerable.Empty<Zadatak>();
+                viewModel.GrupaId = grupaId;
             }
+
+            ViewData["TakmicenjeId"] = takmicenjeId;
 
             return View("IndexPartial", viewModel);
         }

@@ -403,6 +403,21 @@ li.separator {
     letter-spacing: 0;
 }
 
+.novi-zadatak-modal-naslov {
+    font-family: darker_grotesquesemibold;
+    font-size: 24px;
+}
+
+.div-zadatak {
+    width: 18%;
+    display: inline-block;
+    margin-left: 1.5%;
+}
+
+.lista-zadataka {
+    /*padding-left: 15px;*/
+}
+
 .tacka {
     margin-top: 5px;
     background-color: lightgray;

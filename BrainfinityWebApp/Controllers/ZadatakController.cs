@@ -18,23 +18,12 @@ namespace BrainfinityWebApp.Controllers
             _client = client;
         }
 
-        public async Task<IActionResult> Index(int grupaId)
+        public async Task<IActionResult> CreateZadatak(Zadatak zadatak, int takmicenjeId)
         {
             var client = _client.CreateClient("takmicenje");
-            var response = client.GetAsync("zadatak/" + grupaId);
+            var request = await client.PostAsJsonAsync<Zadatak>("zadatak", zadatak);
 
-            var viewModel = new ZadatakIndexViewModel();
-
-            if (response.IsCompletedSuccessfully)
-            {
-                viewModel.SviZadaci = await response.Result.Content.ReadAsAsync<IEnumerable<Zadatak>>();
-            }
-            else
-            {
-                viewModel.SviZadaci = Enumerable.Empty<Zadatak>();
-            }
-
-            return View("IndexPartial", viewModel);
+            return RedirectToAction("Index", "GrupaZadataka", new { takmicenjeId });
         }
     }
 }

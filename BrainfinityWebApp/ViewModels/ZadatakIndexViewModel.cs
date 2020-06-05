@@ -10,5 +10,6 @@ namespace BrainfinityWebApp.ViewModels
     {
         public IEnumerable<Zadatak> SviZadaci { get; set; }
         public Zadatak Zadatak { get; set; }
+        public int GrupaId { get; set; }
     }
 }

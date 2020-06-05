@@ -4,11 +4,21 @@
 @model BrainfinityWebApp.ViewModels.ZadatakIndexViewModel
 @foreach (var zadatak in Model.SviZadaci)
 {
-    <div class="col-md-2">
+    <div class="div-zadatak">
         <div class="grupa-zadataka-zadatak">
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <h5 class="zadatak-naslov">@zadatak.ZadatakNaziv</h5>
+                </div>
+                <div class="col-md-3">
+                    <div style="padding-right: 15px;">
+                        <a href="#" class="pull-right">
+                            <img src="~/images/edit.png" style="height:14px; width: 14px" />
+                        </a>
+                        <a href="#" class="pull-right">
+                            <img src="~/images/trash.png" style="height:14px; width: 14px" />
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -40,40 +50,54 @@
 }
 @if (Model.SviZadaci.Count() < 5)
 {
-    <div class="col-md-2">
-        <div class="grupa-zadataka-novi-zadatak">
-            <div class="row">
-                <div class="col-md-9">
-                    <h5 class="zadatak-naslov">Novi zadatak</h5>
-                </div>
-                <div class="col-md-2">
-                    <img src="~/images/x-circle.png" class="pull-right" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    &nbsp;
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="col-md-2" style="padding-right:5px;">
-                        <div class="pull-right tacka"></div>
-                    </div>
-                    <div class="col-md-3" style="padding:0;">
-                        <img src="~/images/users.png" class="pull-left" />
-                    </div>
-                </div>
+    var grupaId = "zadatakGrupa" + Model.GrupaId;
+    <a href="#" id="@Model.GrupaId" data-toggle="modal" data-target="#@grupaId">
 
-                <div class="col-md-4">
-                    <div class="col-md-2" style="padding-right:5px;">
-                        <div class="pull-right tacka"></div>
+        <div class="div-zadatak">
+            <div class="grupa-zadataka-novi-zadatak">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="zadatak-naslov">Novi zadatak</h5>
                     </div>
-                    <div class="col-md-3" style="padding:0;">
-                        <img src="~/images/pregledac.png" class="pull-left" style="margin-top:5px;" />
+                    <div class="col-md-2">
+                        <img src="~/images/x-circle.png" class="pull-right" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="col-md-2" style="padding-right:5px;">
+                            <div class="pull-right tacka"></div>
+                        </div>
+                        <div class="col-md-3" style="padding:0;">
+                            <img src="~/images/users.png" class="pull-left" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="col-md-2" style="padding-right:5px;">
+                            <div class="pull-right tacka"></div>
+                        </div>
+                        <div class="col-md-3" style="padding:0;">
+                            <img src="~/images/pregledac.png" class="pull-left" style="margin-top:5px;" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </a>
+
+}
+
+@section Scripts{
+    <script>
+        $("#modaldugme").on("click", function (e) {
+            e.preventdefault();
+
+        });
+    </script>
 }
