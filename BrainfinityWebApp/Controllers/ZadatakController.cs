@@ -25,5 +25,13 @@ namespace BrainfinityWebApp.Controllers
 
             return RedirectToAction("Index", "GrupaZadataka", new { takmicenjeId });
         }
+
+        public async Task<IActionResult> DeleteZadatak(int zadatakId, int takmicenjeId)
+        {
+            var client = _client.CreateClient("takmicenje");
+            var request = await client.DeleteAsync("zadatak/" + zadatakId);
+
+            return RedirectToAction("Index", "GrupaZadataka", new { takmicenjeId });
+        }
     }
 }
