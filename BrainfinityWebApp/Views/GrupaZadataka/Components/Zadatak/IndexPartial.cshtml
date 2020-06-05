@@ -5,6 +5,7 @@
 @foreach (var zadatak in Model.SviZadaci)
 {
     var deleteZadatak = "deleteZadatak" + zadatak.Id;
+    var editZadatak = "editZadatak" + zadatak.Id;
     <div class="div-zadatak">
         <div class="grupa-zadataka-zadatak">
             <div class="row">
@@ -13,7 +14,7 @@
                 </div>
                 <div class="col-md-3">
                     <div style="padding-right: 15px;">
-                        <a href="#" class="pull-right">
+                        <a href="#" class="pull-right" data-toggle="modal" data-target="#@editZadatak">
                             <img src="~/images/edit.png" style="height:14px; width: 14px" />
                         </a>
                     </div>
@@ -53,6 +54,7 @@
 @if (Model.SviZadaci.Count() < 5)
 {
     var grupaId = "zadatakGrupa" + Model.GrupaId;
+
     <a href="#" id="@Model.GrupaId" data-toggle="modal" data-target="#@grupaId">
 
         <div class="div-zadatak">
@@ -95,9 +97,10 @@
 
 }
 
-@foreach (var zadadak in Model.SviZadaci)
+@foreach (var zadatak in Model.SviZadaci)
 {
-    var deleteZadatak = "deleteZadatak" + zadadak.Id;
+    var deleteZadatak = "deleteZadatak" + zadatak.Id;
+
     <div class="modal fade" id="@deleteZadatak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -117,7 +120,7 @@
                         <div class="col-md-10 col-md-offset-1">
                             Da li ste sigurni da želite da obrišete zadatak
                             <br />
-                            "<b><u style="text-decoration-color:red;">@zadadak.ZadatakNaziv</u></b>"
+                            "<b><u style="text-decoration-color:red;">@zadatak.ZadatakNaziv</u></b>"
                         </div>
                         <br />
                         <br />
@@ -125,12 +128,60 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div class="col-md-10 col-lg-offset-1">
-                                @Html.Hidden("zadatakId", zadadak.Id)
+                                @Html.Hidden("zadatakId", zadatak.Id)
                                 @Html.Hidden("takmicenjeId", ViewData["TakmicenjeId"])
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
                                 <button type="submit" class="btn btn-danger">
                                     <span>
                                         <img src="~/images/trash-light.png" style="height:16px; width: 16px;" />&nbsp; Obriši
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    var editZadatak = "editZadatak" + zadatak.Id;
+    <div class="modal fade" id="@editZadatak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        @*<div class="col-md-1"></div>*@
+                        <div class="col-md-10 col-lg-offset-1">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:40px;"><span aria-hidden="true">&times;</span></button>
+
+                            <h4 class="modal-title" id="myModalLabel">Izmeni zadatak</h4>
+                        </div>
+                    </div>
+                </div>
+                @using (Html.BeginForm("EditZadatak", "Zadatak"))
+                {
+                    <div class="modal-body">
+                        <div class="col-md-10 col-md-offset-1">
+                            @Html.LabelFor(m => zadatak.ZadatakNaziv)
+                            @Html.TextBoxFor(m => zadatak.ZadatakNaziv, new { @class = "form-control" })
+                        </div>
+                        <br />
+                        <div class="col-md-3 col-md-offset-1">
+                            @Html.LabelFor(m => zadatak.Bodovi)
+                            @Html.EditorFor(m => zadatak.Bodovi, new { @class = "form-control" })
+                        </div>
+                        <br />
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-md-10 col-lg-offset-1">
+                                @Html.Hidden("zadatak.GrupaZadatakaId", zadatak.GrupaZadatakaId)
+                                @Html.Hidden("takmicenjeId", ViewData["TakmicenjeId"])
+                                @Html.Hidden("zadatakId", zadatak.Id)
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Odustani</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <span>
+                                        <img src="~/images/layers.png" style="height:16px; width: 16px;" />&nbsp; Potvrdi
                                     </span>
                                 </button>
                             </div>

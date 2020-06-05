@@ -33,5 +33,13 @@ namespace BrainfinityWebApp.Controllers
 
             return RedirectToAction("Index", "GrupaZadataka", new { takmicenjeId });
         }
+
+        public async Task<IActionResult> EditZadatak(Zadatak zadatak, int takmicenjeId, int zadatakId)
+        {
+            var client = _client.CreateClient("takmicenje");
+            var request = await client.PutAsJsonAsync<Zadatak>("zadatak/" + zadatakId, zadatak);
+
+            return RedirectToAction("Index", "GrupaZadataka", new { takmicenjeId });
+        }
     }
 }
