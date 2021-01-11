@@ -34,7 +34,7 @@
                 <div class="row profil-slika">
                     <div class="col-lg-2 col-sm-2 col-xs-2"></div>
                     <div class="col-lg-8 col-sm-8 col-xs-8">
-                        <img src="https://clipartart.com/images/clipart-profile-4.jpg" />
+                        <img id="avatar" alt="Screenshot_1.png" src="" />
                     </div>
                     <div class="col-lg-2 col-sm-2 col-xs-2"></div>
                 </div>
@@ -42,8 +42,12 @@
                 <div class="row profil-ime">
                     <div class="col-lg-2 col-sm-2 col-xs-2"></div>
                     <div class="col-lg-8 col-sm-8 col-xs-8">
-                        <h3 class="text-center">Ime i Prezime</h3>
-                        <h5 class="text-center">Ovlascenje</h5>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <h3 class="text-center">@User.Claims.SingleOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name).Value</h3>
+                            <h5 class="text-center">@User.Claims.SingleOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role).Value</h5>
+
+                        }
                     </div>
                     <div class="col-lg-2 col-sm-2 col-xs-2"></div>
                 </div>
@@ -54,18 +58,28 @@
                 <li class="item" id="award"><a href="@Url.Action("Index","Takmicenje")"><img src="~/images/award-dark.png" /><span>Takmičenja</span></a></li>
                 <li class="item" id="bell"><a href="@Url.Action("Index","Home")"><img src="~/images/bell-dark.png" /><span>Korekture</span></a></li>
             </ul>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+
+                <div class="logout">
+                    <a id="logout" href="@Url.Action("Logout", "Account")"><img src="~/images/log-out.png" /><span style="padding-left:15px; vertical-align: middle;">Odjavi se</span></a>
+                </div>
+
+            }
         </div>
         <div id="content">
             <breadcrumb></breadcrumb>
             <div class="container-fluid body-content">
                 @RenderBody()
             </div>
-            <hr />
+
             @*<footer>*@
             @*<p>&copy; 2020 - BrainfinityWebApp</p>
                 </footer>*@
         </div>
     </div>
+
     <partial name="_CookieConsentPartial" />
 
     <environment include="Development">
@@ -88,6 +102,27 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script>
+
+            if (!sessionStorage.getItem("avatar")) {
+                var url = "https://localhost:44376/Account/Korisnik";
+                $.get(url, function (data) {
+                    console.log("data: " + data);
+                    var item = "data:image/png;base64," + data;
+                    sessionStorage.setItem("avatar", item);
+                    $("#avatar").attr("src", sessionStorage.getItem("avatar"));
+
+                });
+
+            }
+            $("#avatar").attr("src", sessionStorage.getItem("avatar"));
+            console.log("ss:" + sessionStorage.getItem("avatar"));
+        </script>
+
+    }
 
     @RenderSection("Scripts", required: false)
 </body>
