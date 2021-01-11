@@ -1,0 +1,80 @@
+﻿@model BrainfinityWebApp.Models.Korisnik
+<div class="container">
+    <div class="login-container">
+        <div class="row">
+            <br />
+            <br />
+            <div class="col-md-8 col-md-offset-2">
+                <img src="~/images/Brainfinity_logo_1.png" style="width:100%; height:auto" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <img style="width:100%; height:auto; border-radius: 20px;" src="https://clipartart.com/images/clipart-profile-4.jpg" />
+            </div>
+        </div>
+        @using (Html.BeginForm("LoginForm", "Account", FormMethod.Post, new { @id = "idForm" }))
+        {
+            <div class="row" style="margin-top: 5%;">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="form-group">
+
+                        @Html.LabelFor(k => k.Username)
+                        @Html.TextBoxFor(k => k.Username, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(k => k.Username, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="form-group">
+                        @Html.LabelFor(k => k.Password)
+                        @Html.PasswordFor(k => k.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(k => k.Password, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-2" style="padding-top: 1.1%;">
+                    <a href="@Url.Action("Register", "Account")" class="text-primary">Registruj se</a>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary pull-right"> Uloguj se </button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#sidebar").remove();
+        $("#content").css("margin", "0");
+        $("#content").children("nav").remove();
+
+        @*$("#idForm").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            var username = $("#Username").val();
+            var password = $("#Password").val();
+
+            var data = JSON.stringify({ username: username, password: password })
+
+            var form = $(this);
+            var url = '@Url.Content("~/")' + "Account/login";
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: '@Url.Content("~/")' + "Account/login",
+                data: data, // serializes the form's elements.
+                success: function (data) {
+                    alert(data)
+                }
+            });
+
+        });*@
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
