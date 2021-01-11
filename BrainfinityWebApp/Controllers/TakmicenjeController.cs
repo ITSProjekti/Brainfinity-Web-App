@@ -12,9 +12,14 @@ using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections;
 
 namespace BrainfinityWebApp.Controllers
 {
+    [Authorize(Roles = "Supervizor")]
     public class TakmicenjeController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
@@ -32,8 +37,14 @@ namespace BrainfinityWebApp.Controllers
             IEnumerable<Takmicenje> takmicenja = null;
 
             var request = new HttpRequestMessage(HttpMethod.Get, "takmicenje");
+            //request.Headers.Add("Authorization", "Bearer " + HttpContext.User.Claims.SingleOrDefault(c => c.Type == "token").Value);
             var client = _clientFactory.CreateClient("takmicenje");
             var response = await client.SendAsync(request);
+
+            //if (string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
 
             if (response.IsSuccessStatusCode)
             {
@@ -69,7 +80,7 @@ namespace BrainfinityWebApp.Controllers
         public async Task<IActionResult> Create(Takmicenje takmicenje)
         {
             var client = _clientFactory.CreateClient("takmicenje");
-
+            //client.DefaultRequestHeaders.Add("Authorization", "Bearer " + HttpContext.User.Claims.SingleOrDefault(c => c.Type == "token").Value);
             var newFileName = string.Empty;
 
             if (HttpContext.Request.Form.Files != null)
@@ -168,6 +179,34 @@ namespace BrainfinityWebApp.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> TakmicenjeTabelaIndex(int takmicenjeId, string takmicenjeNaziv)
+        {
+            ViewData["naziv"] = takmicenjeNaziv;
+            //IEnumerable<GrupaZadataka> listaGrupaZadataka = null;
+            //var client = _clientFactory.CreateClient("takmicenje");
+            //var request = new HttpRequestMessage(HttpMethod.Get, "grupaZadataka/" + takmicenjeId);
+            //request.Headers.Add("Authorization", "Bearer " + HttpContext.User.Claims.SingleOrDefault(c => c.Type == "token").Value);
+
+            //var response = await client.SendAsync(request);
+
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var odg = await response.Content.ReadAsAsync<IList<GrupaZadataka>>();
+            //    listaGrupaZadataka = odg;
+            //}
+            //else
+            //{
+            //    listaGrupaZadataka = Enumerable.Empty<GrupaZadataka>();
+            //}
+
+            //TakmicenjeTabelaViewModel viewModel = new TakmicenjeTabelaViewModel()
+            //{
+            //    GrupeZadataka = listaGrupaZadataka
+            //};
+
+            return View("TakmicenjeTabela");
         }
     }
 }

@@ -5,10 +5,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BrainfinityWebApp.Models;
 using BrainfinityWebApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BrainfinityWebApp.Controllers
 {
+    [Authorize(Roles = "Supervizor")]
     public class ZadatakController : Controller
     {
         private readonly IHttpClientFactory _client;

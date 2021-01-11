@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using BrainfinityWebApp.Models;
 using System.Net.Http;
 using SmartBreadcrumbs.Attributes;
+using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace BrainfinityWebApp.Controllers
 {
@@ -15,6 +19,9 @@ namespace BrainfinityWebApp.Controllers
         [DefaultBreadcrumb("Početna")]
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+            }
             return View();
         }
 
